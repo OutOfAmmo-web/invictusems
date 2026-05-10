@@ -1,0 +1,1215 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Invictus EMS — Incidentrapport</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --red: #C0392B;
+    --red-dark: #922B21;
+    --red-light: #F9EBEA;
+    --red-mid: #E74C3C;
+    --gold: #D4AC0D;
+    --gold-light: #FEF9E7;
+    --dark: #1A1A2E;
+    --dark2: #16213E;
+    --dark3: #0F3460;
+    --panel: #1E2A3A;
+    --panel2: #243447;
+    --text: #ECF0F1;
+    --text-muted: #95A5A6;
+    --border: rgba(255,255,255,0.08);
+    --border-accent: rgba(192,57,43,0.5);
+    --input-bg: rgba(255,255,255,0.05);
+    --success: #27AE60;
+    --warning: #E67E22;
+  }
+
+  body {
+    font-family: 'Source Sans 3', sans-serif;
+    background: var(--dark);
+    color: var(--text);
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at 0% 0%, rgba(192,57,43,0.12) 0%, transparent 50%),
+      radial-gradient(ellipse at 100% 100%, rgba(15,52,96,0.3) 0%, transparent 50%);
+  }
+
+  /* HEADER */
+  header {
+    background: var(--dark2);
+    border-bottom: 1px solid var(--border-accent);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 72px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 4px 24px rgba(0,0,0,0.4);
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+
+  .logo-emblem {
+    width: 44px;
+    height: 44px;
+    background: var(--red);
+    border-radius: 6px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    font-size: 18px;
+    color: #fff;
+    letter-spacing: 1px;
+    flex-shrink: 0;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .logo-emblem::after {
+    content: '';
+    position: absolute;
+    top: -10px; left: -10px; right: -10px; bottom: -10px;
+    background: repeating-linear-gradient(
+      45deg,
+      transparent,
+      transparent 4px,
+      rgba(255,255,255,0.04) 4px,
+      rgba(255,255,255,0.04) 8px
+    );
+  }
+
+  .logo-text h1 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 3px;
+    color: #fff;
+    line-height: 1;
+    text-transform: uppercase;
+  }
+
+  .logo-text span {
+    font-size: 11px;
+    color: var(--red-mid);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .header-badge {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(192,57,43,0.15);
+    border: 1px solid var(--border-accent);
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-size: 12px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--red-mid);
+    font-weight: 600;
+  }
+
+  .pulse {
+    width: 8px; height: 8px;
+    background: var(--red-mid);
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.4; transform: scale(0.7); }
+  }
+
+  /* MAIN LAYOUT */
+  main {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 4rem;
+  }
+
+  .page-title {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .section-heading {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 1.25rem;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .section-heading .section-icon {
+    width: 30px; height: 30px;
+    background: rgba(192,57,43,0.2);
+    border: 1px solid var(--border-accent);
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px;
+    color: var(--red-mid);
+    flex-shrink: 0;
+  }
+
+  .section-heading h2 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--text);
+  }
+
+  .section-heading .section-num {
+    font-size: 11px;
+    color: var(--text-muted);
+    margin-left: auto;
+    letter-spacing: 1px;
+  }
+
+  /* CARD */
+  .card {
+    background: var(--panel);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 1.25rem;
+    transition: border-color 0.2s;
+  }
+
+  .card:hover {
+    border-color: rgba(255,255,255,0.12);
+  }
+
+  /* GRID */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+  .span-2 { grid-column: span 2; }
+
+  @media (max-width: 640px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+    .span-2 { grid-column: span 1; }
+  }
+
+  /* FORM FIELDS */
+  .field { display: flex; flex-direction: column; gap: 6px; }
+
+  label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+  }
+
+  input[type="text"],
+  input[type="number"],
+  input[type="time"],
+  input[type="date"],
+  select,
+  textarea {
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-family: 'Source Sans 3', sans-serif;
+    font-size: 14px;
+    padding: 9px 12px;
+    outline: none;
+    transition: border-color 0.15s, background 0.15s;
+    width: 100%;
+  }
+
+  input:focus, select:focus, textarea:focus {
+    border-color: var(--red);
+    background: rgba(192,57,43,0.08);
+  }
+
+  select option { background: var(--dark2); color: var(--text); }
+  textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+
+  input[type="checkbox"] {
+    width: 16px; height: 16px;
+    accent-color: var(--red);
+    cursor: pointer;
+  }
+
+  /* RADIO / CHECKBOX GROUPS */
+  .check-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 4px;
+  }
+
+  .check-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: var(--input-bg);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 7px 12px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+    font-size: 13px;
+    color: var(--text-muted);
+  }
+
+  .check-item:hover {
+    border-color: rgba(192,57,43,0.4);
+    background: rgba(192,57,43,0.06);
+  }
+
+  .check-item input[type="checkbox"]:checked + span {
+    color: var(--text);
+  }
+
+  .check-item:has(input:checked) {
+    border-color: var(--red);
+    background: rgba(192,57,43,0.1);
+    color: var(--text);
+  }
+
+  /* STATUS BAR */
+  .status-bar {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: rgba(192,57,43,0.1);
+    border: 1px solid var(--border-accent);
+    border-radius: 6px;
+    padding: 10px 16px;
+    margin-bottom: 1.5rem;
+    font-size: 13px;
+    color: var(--red-mid);
+    font-weight: 500;
+  }
+
+  /* SEVERITY SELECTOR */
+  .severity-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+  }
+
+  .severity-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 8px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--input-bg);
+    cursor: pointer;
+    transition: all 0.15s;
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    text-align: center;
+  }
+
+  .severity-btn .dot {
+    width: 14px; height: 14px;
+    border-radius: 50%;
+  }
+
+  .severity-btn.p1 .dot { background: #E74C3C; }
+  .severity-btn.p2 .dot { background: #E67E22; }
+  .severity-btn.p3 .dot { background: #F1C40F; }
+  .severity-btn.p4 .dot { background: #27AE60; }
+
+  .severity-btn.active {
+    border-width: 2px;
+    color: var(--text);
+  }
+
+  .severity-btn.p1.active { border-color: #E74C3C; background: rgba(231,76,60,0.12); }
+  .severity-btn.p2.active { border-color: #E67E22; background: rgba(230,126,34,0.12); }
+  .severity-btn.p3.active { border-color: #F1C40F; background: rgba(241,196,15,0.12); }
+  .severity-btn.p4.active { border-color: #27AE60; background: rgba(39,174,96,0.12); }
+
+  /* VITALS TABLE */
+  .vitals-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+  }
+
+  .vitals-table th {
+    background: rgba(255,255,255,0.04);
+    padding: 8px 12px;
+    text-align: left;
+    font-size: 10px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    font-weight: 600;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .vitals-table td {
+    padding: 8px 12px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+  }
+
+  .vitals-table td input {
+    background: transparent;
+    border: none;
+    color: var(--text);
+    font-size: 13px;
+    width: 100%;
+    outline: none;
+    padding: 2px 0;
+  }
+
+  .vitals-table td input:focus {
+    border-bottom: 1px solid var(--red);
+  }
+
+  .vitals-table tr:last-child td { border-bottom: none; }
+
+  /* TREATMENT ROW */
+  .treatment-row {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+    margin-bottom: 8px;
+  }
+
+  .treatment-row .field { flex: 1; }
+
+  .btn-remove {
+    background: rgba(192,57,43,0.15);
+    border: 1px solid var(--border-accent);
+    color: var(--red-mid);
+    padding: 9px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 1;
+    transition: background 0.15s;
+    flex-shrink: 0;
+  }
+
+  .btn-remove:hover { background: rgba(192,57,43,0.3); }
+
+  .btn-add {
+    background: transparent;
+    border: 1px dashed rgba(255,255,255,0.2);
+    color: var(--text-muted);
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: all 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'Source Sans 3', sans-serif;
+  }
+
+  .btn-add:hover {
+    border-color: var(--red);
+    color: var(--red-mid);
+    background: rgba(192,57,43,0.05);
+  }
+
+  /* SUBMIT */
+  .submit-area {
+    display: flex;
+    gap: 14px;
+    align-items: center;
+    justify-content: flex-end;
+    margin-top: 2rem;
+    padding-top: 1.5rem;
+    border-top: 1px solid var(--border);
+  }
+
+  .btn-reset {
+    background: transparent;
+    border: 1px solid var(--border);
+    color: var(--text-muted);
+    padding: 11px 22px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Source Sans 3', sans-serif;
+    transition: all 0.15s;
+  }
+
+  .btn-reset:hover {
+    border-color: rgba(255,255,255,0.3);
+    color: var(--text);
+  }
+
+  .btn-submit {
+    background: var(--red);
+    border: none;
+    color: #fff;
+    padding: 11px 28px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: background 0.15s, transform 0.1s;
+  }
+
+  .btn-submit:hover { background: var(--red-dark); }
+  .btn-submit:active { transform: scale(0.98); }
+
+  .btn-preview {
+    background: transparent;
+    border: 1px solid var(--border-accent);
+    color: var(--red-mid);
+    padding: 11px 22px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    font-family: 'Source Sans 3', sans-serif;
+    transition: all 0.15s;
+  }
+
+  .btn-preview:hover { background: rgba(192,57,43,0.1); }
+
+  /* DIVIDER */
+  .section-gap { margin-top: 2rem; }
+
+  /* RAPPORT ID */
+  .rapport-id {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 12px;
+    letter-spacing: 2px;
+    color: var(--text-muted);
+    text-transform: uppercase;
+  }
+
+  /* MODAL OVERLAY */
+  .modal-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.75);
+    z-index: 999;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .modal-overlay.active { display: flex; }
+
+  .modal {
+    background: var(--dark2);
+    border: 1px solid var(--border-accent);
+    border-radius: 8px;
+    max-width: 680px;
+    width: 100%;
+    max-height: 80vh;
+    overflow-y: auto;
+    padding: 2rem;
+  }
+
+  .modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .modal-header h3 {
+    font-family: 'Rajdhani', sans-serif;
+    font-size: 18px;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .modal-close {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    font-size: 22px;
+    cursor: pointer;
+    line-height: 1;
+    padding: 4px;
+  }
+
+  .preview-block {
+    margin-bottom: 1.25rem;
+  }
+
+  .preview-block .pbl {
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 4px;
+    font-weight: 600;
+  }
+
+  .preview-block .pbv {
+    font-size: 14px;
+    color: var(--text);
+    background: var(--input-bg);
+    padding: 8px 12px;
+    border-radius: 4px;
+    border: 1px solid var(--border);
+  }
+
+  .preview-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    margin-bottom: 1.25rem;
+  }
+
+  .modal-footer {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  .copy-btn {
+    background: var(--red);
+    border: none;
+    color: #fff;
+    padding: 9px 20px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: 'Rajdhani', sans-serif;
+    font-weight: 700;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    transition: background 0.15s;
+  }
+
+  .copy-btn:hover { background: var(--red-dark); }
+
+  .copied-msg {
+    display: none;
+    color: var(--success);
+    font-size: 13px;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .copied-msg.show { display: flex; }
+
+  /* TOAST */
+  .toast {
+    position: fixed;
+    bottom: 2rem;
+    right: 2rem;
+    background: var(--success);
+    color: #fff;
+    padding: 12px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: all 0.3s;
+    z-index: 9999;
+  }
+
+  .toast.show { opacity: 1; transform: translateY(0); }
+
+  /* RAPPORT TEXT AREA */
+  #rapport-text {
+    width: 100%;
+    height: 200px;
+    background: rgba(0,0,0,0.3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    color: var(--text);
+    font-family: 'Source Sans 3', monospace;
+    font-size: 12px;
+    padding: 12px;
+    resize: none;
+    outline: none;
+    line-height: 1.7;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-emblem">EMS</div>
+    <div class="logo-text">
+      <h1>Invictus</h1>
+      <span>Emergency Medical Services</span>
+    </div>
+  </div>
+  <div class="header-badge">
+    <div class="pulse"></div>
+    Incidentrapport
+  </div>
+</header>
+
+<main>
+  <p class="page-title">Medisch Incidentrapport — Invictus</p>
+
+  <div class="status-bar">
+    <div class="pulse"></div>
+    Nieuw rapport aanmaken — vul alle vereiste velden in voordat u indient
+  </div>
+
+  <div class="card">
+    <div class="section-heading">
+      <div class="section-icon">🚑</div>
+      <h2>Incident Informatie</h2>
+      <h6><b>Vul hier alles netjes in</b></h6>
+      <span class="section-num">01 / 06</span>
+    </div>
+    <div class="grid-3">
+      <div class="field">
+        <label>Rapport ID</label>
+        <input type="text" id="rapport-id" placeholder="Auto-genereer..." readonly style="color: var(--text-muted); cursor: default;">
+      </div>
+      <div class="field">
+        <label>Datum</label>
+        <input type="date" id="datum">
+      </div>
+      <div class="field">
+        <label>Tijd melding</label>
+        <input type="time" id="tijd-melding">
+      </div>
+      <div class="field">
+        <label>Tijd aankomst</label>
+        <input type="time" id="tijd-aankomst">
+      </div>
+      <div class="field">
+        <label>Tijd afsluiting</label>
+        <input type="time" id="tijd-afsluiting">
+      </div>
+      <div class="field">
+        <label>Eenheid / Unit</label>
+        <select id="unit">
+          <option value="">— selecteer —</option>
+          <option>EMS-01</option>
+          <option>EMS-02</option>
+          <option>EMS-03</option>
+          <option>EMS-04</option>
+          <option>EMS-05</option>
+          <option>EMS-06</option>
+          <option>EMS-07</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="grid-2" style="margin-top: 14px;">
+      <div class="field">
+        <label>Locatie incident</label>
+        <input type="text" id="locatie" placeholder="Straatnaam, wijk of coördinaten...">
+      </div>
+      <div class="field">
+        <label>Meldingstype</label>
+        <select id="melding-type">
+          <option value="">— selecteer —</option>
+          <option>112 Noodoproep</option>
+          <option>Arts terplaatse</option>
+          <option>Zichtzending</option>
+          <option>Overdracht ziekenhuis</option>
+          <option>Bewusteloos op straat</option>
+          <option>Verkeersongeval</option>
+          <option>Schotwond / Steek</option>
+          <option>Drugsgerelateerd</option>
+          <option>Anders</option>
+        </select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="section-heading">
+      <div class="section-icon">⚡</div>
+      <h2>Ernst & Prioriteit</h2>
+      <span class="section-num">02 / 06</span>
+    </div>
+    <div class="severity-grid" id="severity-grid">
+      <button type="button" class="severity-btn p1" onclick="selectSeverity(this,'P1')">
+        <div class="dot"></div>
+        P1<br><small style="font-size:10px; font-weight:400; letter-spacing:0">Kritiek</small>
+      </button>
+      <button type="button" class="severity-btn p2" onclick="selectSeverity(this,'P2')">
+        <div class="dot"></div>
+        P2<br><small style="font-size:10px; font-weight:400; letter-spacing:0">Spoed</small>
+      </button>
+      <button type="button" class="severity-btn p3" onclick="selectSeverity(this,'P3')">
+        <div class="dot"></div>
+        P3<br><small style="font-size:10px; font-weight:400; letter-spacing:0">Urgentie</small>
+      </button>
+      <button type="button" class="severity-btn p4" onclick="selectSeverity(this,'P4')">
+        <div class="dot"></div>
+        P4<br><small style="font-size:10px; font-weight:400; letter-spacing:0">Routine</small>
+      </button>
+    </div>
+    <input type="hidden" id="prioriteit" value="">
+  </div>
+
+  <!-- SECTIE 3: AMBULANCEPERSONEEL -->
+  <div class="card">
+    <div class="section-heading">
+      <div class="section-icon">👤</div>
+      <h2>Ambulancepersoneel</h2>
+      <span class="section-num">03 / 06</span>
+    </div>
+    <div class="grid-2">
+      <div class="field">
+        <label>Naam behandelend ambulancier</label>
+        <input type="text" id="amb-naam" placeholder="Volledige naam of callsign...">
+      </div>
+      <div class="field">
+        <label>Rang / Functie</label>
+        <select id="amb-rang">
+          <option value="">— selecteer —</option>
+          <option>In opleiding</option>
+          <option>Ondersteunend Personeel</option>
+          <option>Ambulancier</option>
+          <option>Senior Ambulancier</option>
+          <option>Arts</option>
+          <option>Trauma Arts</option>
+          <option>Geneeskundige</option>
+          <option>Hoofd Geneeskundige</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Collega / Back-up (optioneel)</label>
+        <input type="text" id="amb-collega" placeholder="Naam of callsign...">
+      </div>
+      <div class="field">
+        <label>Dienstnummer</label>
+        <input type="text" id="dienst-nr" placeholder="bijv. EMS-2024-0042">
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTIE 4: PATIËNTINFO -->
+  <div class="card">
+    <div class="section-heading">
+      <div class="section-icon">🧑‍⚕️</div>
+      <h2>Patiënt Informatie</h2>
+      <span class="section-num">04 / 06</span>
+    </div>
+    <div class="grid-3">
+      <div class="field">
+        <label>Naam patiënt</label>
+        <input type="text" id="pat-naam" placeholder="Volledige naam...">
+      </div>
+      <div class="field">
+        <label>Geslacht</label>
+        <select id="pat-geslacht">
+          <option value="">— selecteer —</option>
+          <option>Man</option>
+          <option>Vrouw</option>
+          <option>Onbekend</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Leeftijd (geschat)</label>
+        <input type="number" id="pat-leeftijd" placeholder="bijv. 34" min="0" max="120">
+      </div>
+    </div>
+
+    <div style="margin-top: 14px;">
+      <label style="display: block; margin-bottom: 8px;">Bewustzijnsstatus bij aankomst</label>
+      <div class="check-group">
+        <label class="check-item">
+          <input type="radio" name="bewustzijn" value="Bewust / Alert"> <span>Bewust / Alert</span>
+        </label>
+        <label class="check-item">
+          <input type="radio" name="bewustzijn" value="Verward"> <span>Verward</span>
+        </label>
+        <label class="check-item">
+          <input type="radio" name="bewustzijn" value="Bewusteloos"> <span>Bewusteloos</span>
+        </label>
+        <label class="check-item">
+          <input type="radio" name="bewustzijn" value="Reanimatie vereist"> <span>Reanimatie vereist</span>
+        </label>
+        <label class="check-item">
+          <input type="radio" name="bewustzijn" value="Overleden"> <span>Overleden</span>
+        </label>
+      </div>
+    </div>
+
+    <div style="margin-top: 14px;">
+      <label style="display: block; margin-bottom: 8px;">Letseltype(s)</label>
+      <div class="check-group" id="letsel-checks">
+        <label class="check-item"><input type="checkbox" value="Schotwond"> <span>Schotwond</span></label>
+        <label class="check-item"><input type="checkbox" value="Steekwond"> <span>Steekwond</span></label>
+        <label class="check-item"><input type="checkbox" value="Botbreuk"> <span>Botbreuk</span></label>
+        <label class="check-item"><input type="checkbox" value="Trauma hoofd"> <span>Trauma hoofd</span></label>
+        <label class="check-item"><input type="checkbox" value="Verbrandingen"> <span>Verbrandingen</span></label>
+        <label class="check-item"><input type="checkbox" value="Overdosis drugs"> <span>Overdosis drugs</span></label>
+        <label class="check-item"><input type="checkbox" value="Hartproblemen"> <span>Hartproblemen</span></label>
+        <label class="check-item"><input type="checkbox" value="Ademhalingsproblemen"> <span>Ademhaling</span></label>
+        <label class="check-item"><input type="checkbox" value="Bloedstelping vereist"> <span>Bloeding</span></label>
+        <label class="check-item"><input type="checkbox" value="Verdrinking"> <span>Verdrinking</span></label>
+        <label class="check-item"><input type="checkbox" value="Anders"> <span>Anders</span></label>
+      </div>
+    </div>
+  </div>
+
+  <!-- SECTIE 5: VITALE FUNCTIES -->
+  <div class="card">
+    <div class="section-heading">
+      <div class="section-icon">💓</div>
+      <h2>Vitale Functies</h2>
+      <span class="section-num">05 / 06</span>
+    </div>
+    <table class="vitals-table">
+      <thead>
+        <tr>
+          <th>Meting</th>
+          <th>Bij aankomst</th>
+          <th>Na behandeling</th>
+          <th>Eenheid</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td style="color: var(--text-muted); font-size: 12px;">Bloeddruk</td>
+          <td><input type="text" placeholder="120/80"></td>
+          <td><input type="text" placeholder="120/80"></td>
+          <td style="color: var(--text-muted); font-size: 12px;">mmHg</td>
+        </tr>
+        <tr>
+          <td style="color: var(--text-muted); font-size: 12px;">Hartslag</td>
+          <td><input type="text" placeholder="72"></td>
+          <td><input type="text" placeholder="72"></td>
+          <td style="color: var(--text-muted); font-size: 12px;">bpm</td>
+        </tr>
+        <tr>
+          <td style="color: var(--text-muted); font-size: 12px;">Zuurstofsat.</td>
+          <td><input type="text" placeholder="98"></td>
+          <td><input type="text" placeholder="98"></td>
+          <td style="color: var(--text-muted); font-size: 12px;">%</td>
+        </tr>
+        <tr>
+          <td style="color: var(--text-muted); font-size: 12px;">Ademhaling</td>
+          <td><input type="text" placeholder="16"></td>
+          <td><input type="text" placeholder="16"></td>
+          <td style="color: var(--text-muted); font-size: 12px;">p/min</td>
+        </tr>
+        <tr>
+          <td style="color: var(--text-muted); font-size: 12px;">Temperatuur</td>
+          <td><input type="text" placeholder="37.0"></td>
+          <td><input type="text" placeholder="37.0"></td>
+          <td style="color: var(--text-muted); font-size: 12px;">°C</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <!-- SECTIE 6: BEHANDELING & NOTITIES -->
+  <div class="card">
+    <div class="section-heading">
+      <div class="section-icon">💊</div>
+      <h2>Behandeling & Notities</h2>
+      <span class="section-num">06 / 06</span>
+    </div>
+
+    <label style="display: block; margin-bottom: 8px;">Toegediende medicatie / behandelingen</label>
+    <div id="treatment-list">
+      <div class="treatment-row">
+        <div class="field" style="flex:2;">
+          <input type="text" placeholder="Behandeling of medicatie...">
+        </div>
+        <div class="field" style="flex:1;">
+          <input type="text" placeholder="Dosis / details">
+        </div>
+        <button class="btn-remove" onclick="removeRow(this)" title="Verwijder">×</button>
+      </div>
+    </div>
+    <button class="btn-add" onclick="addTreatment()" style="margin-top: 8px; margin-bottom: 16px;">
+      + Behandeling toevoegen
+    </button>
+
+    <div class="field">
+      <label>Situatie beschrijving</label>
+      <textarea id="situatie" placeholder="Beschrijf de situatie bij aankomst, bevindingen, omstandigheden..."></textarea>
+    </div>
+
+    <div class="field" style="margin-top: 14px;">
+      <label>Afhandeling & overdracht</label>
+      <select id="afhandeling">
+        <option value="">— selecteer —</option>
+        <option>Patiënt gestabiliseerd — ter plaatse ontslagen</option>
+        <option>Overgebracht naar ziekenhuis</option>
+        <option>Overgedragen aan politie</option>
+        <option>Patiënt weigerde behandeling</option>
+        <option>Reanimatie mislukt — overlijden vastgesteld</option>
+        <option>Overgedragen aan trauma arts</option>
+        <option>Opgenomen op IC</option>
+        <option>Anders</option>
+      </select>
+    </div>
+
+    <div class="field" style="margin-top: 14px;">
+      <label>Aanvullende notities (optioneel)</label>
+      <textarea id="notities" placeholder="Extra informatie, bijzonderheden, betrokken partijen..."></textarea>
+    </div>
+  </div>
+
+  <!-- SUBMIT -->
+  <div class="submit-area">
+    <button class="btn-reset" onclick="resetForm()">Wissen</button>
+    <button class="btn-preview" onclick="openPreview()">Voorbeeld rapport</button>
+    <button class="btn-submit" onclick="openPreview()">▶ Rapport genereren</button>
+  </div>
+</main>
+
+<!-- MODAL -->
+<div class="modal-overlay" id="modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h3>📋 Rapport — Voorbeeld</h3>
+      <button class="modal-close" onclick="closeModal()">×</button>
+    </div>
+    <div id="rapport-preview"></div>
+    <div class="modal-footer">
+      <span class="copied-msg" id="copied-msg">✓ Gekopieerd!</span>
+      <button class="btn-reset" onclick="closeModal()">Sluiten</button>
+      <button class="copy-btn" onclick="copyRapport()">Kopieer tekst</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast">✓ Rapport succesvol gegenereerd</div>
+
+<script>
+// Generate rapport ID
+function genId() {
+  const d = new Date();
+  const yy = d.getFullYear().toString().slice(2);
+  const mm = String(d.getMonth()+1).padStart(2,'0');
+  const dd = String(d.getDate()).padStart(2,'0');
+  const rnd = Math.floor(Math.random()*9000)+1000;
+  return `IVS-EMS-${yy}${mm}${dd}-${rnd}`;
+}
+
+// Set defaults
+window.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('rapport-id').value = genId();
+  const now = new Date();
+  document.getElementById('datum').value = now.toISOString().split('T')[0];
+  const hm = now.toTimeString().slice(0,5);
+  document.getElementById('tijd-melding').value = hm;
+});
+
+// Severity
+function selectSeverity(btn, val) {
+  document.querySelectorAll('.severity-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('prioriteit').value = val;
+}
+
+// Add treatment row
+function addTreatment() {
+  const div = document.createElement('div');
+  div.className = 'treatment-row';
+  div.innerHTML = `
+    <div class="field" style="flex:2;"><input type="text" placeholder="Behandeling of medicatie..."></div>
+    <div class="field" style="flex:1;"><input type="text" placeholder="Dosis / details"></div>
+    <button class="btn-remove" onclick="removeRow(this)" title="Verwijder">×</button>
+  `;
+  document.getElementById('treatment-list').appendChild(div);
+}
+
+function removeRow(btn) {
+  const rows = document.querySelectorAll('.treatment-row');
+  if (rows.length > 1) btn.closest('.treatment-row').remove();
+}
+
+// Reset
+function resetForm() {
+  if (!confirm('Weet u zeker dat u het formulier wilt wissen?')) return;
+  document.querySelectorAll('input:not([type=radio]):not([type=checkbox]):not([readonly]), textarea, select').forEach(el => { el.value = ''; });
+  document.querySelectorAll('input[type=radio], input[type=checkbox]').forEach(el => { el.checked = false; });
+  document.querySelectorAll('.severity-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById('rapport-id').value = genId();
+  const now = new Date();
+  document.getElementById('datum').value = now.toISOString().split('T')[0];
+  document.getElementById('tijd-melding').value = now.toTimeString().slice(0,5);
+  const rows = document.querySelectorAll('.treatment-row');
+  rows.forEach((r,i) => { if(i>0) r.remove(); });
+}
+
+// Get letsel
+function getLetsels() {
+  return Array.from(document.querySelectorAll('#letsel-checks input:checked')).map(c => c.value).join(', ') || 'Geen aangegeven';
+}
+
+// Get behandelingen
+function getBehandelingen() {
+  const rows = document.querySelectorAll('.treatment-row');
+  let lines = [];
+  rows.forEach(r => {
+    const inputs = r.querySelectorAll('input[type=text]');
+    const beh = inputs[0].value.trim();
+    const dos = inputs[1].value.trim();
+    if (beh) lines.push(dos ? `${beh} (${dos})` : beh);
+  });
+  return lines.length ? lines.join('; ') : 'Geen';
+}
+
+// Get vitals
+function getVitals() {
+  const rows = document.querySelectorAll('.vitals-table tbody tr');
+  const labels = ['Bloeddruk','Hartslag','Zuurstofsat.','Ademhaling','Temperatuur'];
+  const units = ['mmHg','bpm','%','p/min','°C'];
+  let lines = [];
+  rows.forEach((r,i) => {
+    const inputs = r.querySelectorAll('input');
+    const v1 = inputs[0].value.trim();
+    const v2 = inputs[1].value.trim();
+    if (v1 || v2) lines.push(`${labels[i]}: ${v1||'—'} → ${v2||'—'} ${units[i]}`);
+  });
+  return lines.length ? lines.join('\n') : 'Niet gemeten';
+}
+
+// Get bewustzijn
+function getBewustzijn() {
+  const r = document.querySelector('input[name=bewustzijn]:checked');
+  return r ? r.value : 'Niet aangegeven';
+}
+
+// Preview
+function openPreview() {
+  const id = document.getElementById('rapport-id').value;
+  const datum = document.getElementById('datum').value;
+  const tijdM = document.getElementById('tijd-melding').value;
+  const tijdA = document.getElementById('tijd-aankomst').value;
+  const tijdS = document.getElementById('tijd-afsluiting').value;
+  const unit = document.getElementById('unit').value;
+  const locatie = document.getElementById('locatie').value || 'Onbekend';
+  const type = document.getElementById('melding-type').value || 'Onbekend';
+  const prio = document.getElementById('prioriteit').value || 'Niet ingesteld';
+  const ambNaam = document.getElementById('amb-naam').value || 'Onbekend';
+  const ambRang = document.getElementById('amb-rang').value || '—';
+  const ambCol = document.getElementById('amb-collega').value || '—';
+  const dienstNr = document.getElementById('dienst-nr').value || '—';
+  const patNaam = document.getElementById('pat-naam').value || 'Onbekend';
+  const patGes = document.getElementById('pat-geslacht').value || '—';
+  const patLeef = document.getElementById('pat-leeftijd').value || '—';
+  const bew = getBewustzijn();
+  const letsels = getLetsels();
+  const behandelingen = getBehandelingen();
+  const situatie = document.getElementById('situatie').value || 'Geen beschrijving ingevoerd.';
+  const afhandeling = document.getElementById('afhandeling').value || '—';
+  const notities = document.getElementById('notities').value || '—';
+  const vitals = getVitals();
+
+  const rapport = `╔═══════════════════════════════════════════════════╗
+                                          MEDISCH INCIDENTRAPPORT                                            
+╚═══════════════════════════════════════════════════╝
+
+▸ Rapport ID   : ${id}
+▸ Datum        : ${datum}
+▸ Tijd melding : ${tijdM} | Aankomst: ${tijdA || '—'} | Afsluiting: ${tijdS || '—'}
+▸ Eenheid      : ${unit || '—'}
+▸ Prioriteit   : ${prio}
+
+─── INCIDENT ────────────────────────────────────────
+Locatie        : ${locatie}
+Type melding   : ${type}
+
+─── PERSONEEL ───────────────────────────────────────
+Ambulancier    : ${ambNaam} (${ambRang})
+Collega        : ${ambCol}
+Dienstnummer   : ${dienstNr}
+
+─── PATIËNT ─────────────────────────────────────────
+Naam           : ${patNaam}
+Geslacht/leeft.: ${patGes}, ${patLeef} jaar
+Bewustzijn     : ${bew}
+Letsels        : ${letsels}
+
+─── VITALE FUNCTIES ─────────────────────────────────
+${vitals}
+
+─── BEHANDELING ─────────────────────────────────────
+${behandelingen}
+
+─── SITUATIE BESCHRIJVING ───────────────────────────
+${situatie}
+
+─── AFHANDELING ─────────────────────────────────────
+${afhandeling}
+
+─── NOTITIES ────────────────────────────────────────
+${notities}
+
+════════════════════════════════════════════════════
+Ondertekend: ${ambNaam} — ${datum} ${tijdS || tijdA || tijdM}
+                     Emergency Medical Services
+════════════════════════════════════════════════════`;
+
+  document.getElementById('rapport-preview').innerHTML = `
+    <textarea id="rapport-text" readonly>${rapport}</textarea>
+  `;
+
+  document.getElementById('modal').classList.add('active');
+  showToast();
+}
+
+function closeModal() {
+  document.getElementById('modal').classList.remove('active');
+}
+
+function copyRapport() {
+  const text = document.getElementById('rapport-text').value;
+  navigator.clipboard.writeText(text).then(() => {
+    document.getElementById('copied-msg').classList.add('show');
+    setTimeout(() => document.getElementById('copied-msg').classList.remove('show'), 2500);
+  });
+}
+
+function showToast() {
+  const t = document.getElementById('toast');
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// Close modal on overlay click
+document.getElementById('modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('modal')) closeModal();
+});
+</script>
+</body>
+</html>
