@@ -77,6 +77,7 @@
     flex-shrink: 0;
     position: relative;
     overflow: hidden;
+    animation: pulse 2s infinite;
   }
 
   .logo-emblem::after {
@@ -123,6 +124,16 @@
     text-transform: uppercase;
     color: var(--red-mid);
     font-weight: 600;
+  }
+
+  .header-badge.changelog-btn {
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .header-badge.changelog-btn:hover {
+    background: rgba(192,57,43,0.25);
+    border-color: var(--red-mid);
   }
 
   .pulse {
@@ -172,7 +183,9 @@
     color: var(--red-mid);
     flex-shrink: 0;
   }
-
+.section-icon {
+  animation: pulse 2s infinite;
+}
   .section-heading h2 {
     font-family: 'Rajdhani', sans-serif;
     font-size: 16px;
@@ -678,6 +691,11 @@
   <div class="header-badge">
     <div class="pulse"></div>
     Incidentrapport
+    <div class="pulse"></div>
+    </div>
+    <div class="header-badge changelog-btn" onclick="openChangelog()" title="Changelog bekijken">
+      <div class="pulse"></div> Changelog
+      <div class="pulse"></div>
   </div>
 </header>
 
@@ -1010,6 +1028,52 @@
   </div>
 </div>
 
+<!-- CHANGELOG MODAL -->
+<div class="modal-overlay" id="changelog-modal">
+  <div class="modal">
+    <div class="modal-header">
+      <h4>📝 Changelog</h4>
+      <button class="modal-close" onclick="closeChangelog()">×</button>
+    </div>
+    <div id="changelog-content" style="font-size: 13px; line-height: 1.8; color: var(--text);">
+      <div class="preview-block">
+        <div class="pbv" style="white-space: pre-wrap; font-family: 'Courier New', monospace; font-size: 12px;">
+═══════════════════════════════════════════════════════
+           INVICTUS EMS — CHANGELOG
+═══════════════════════════════════════════════════════
+
+v1.2.0 — 12 Mei 2026
+─────────────────────────────────────────────────────
+✓ Changelog viewer toegevoegd
+✓ Verbeterde UI responsiveness
+✓ Bugfixes in formulier validatie
+✓ LayOut veranderd voor betere leesbaarheid
+
+v1.1.5 — 8 Mei 2026
+─────────────────────────────────────────────────────
+✓ Vitale functies tabel geoptimaliseerd
+✓ Behandelingen systeem verbeterd
+✓ Rapport export functionaliteit
+
+v1.1.0 — 1 Mei 2026
+─────────────────────────────────────────────────────
+✓ Initiële release
+✓ Volledige formulier implementatie
+✓ Rapport generatie systeem
+✓ Dark mode interface
+
+═══════════════════════════════════════════════════════
+        Emergency Medical Services Platform
+═══════════════════════════════════════════════════════
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn-reset" onclick="closeChangelog()">Sluiten</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast">✓ Rapport succesvol gegenereerd</div>
 
 <script>
@@ -1209,6 +1273,20 @@ function showToast() {
 // Close modal on overlay click
 document.getElementById('modal').addEventListener('click', e => {
   if (e.target === document.getElementById('modal')) closeModal();
+});
+
+// Changelog functions
+function openChangelog() {
+  document.getElementById('changelog-modal').classList.add('active');
+}
+
+function closeChangelog() {
+  document.getElementById('changelog-modal').classList.remove('active');
+}
+
+// Close changelog modal on overlay click
+document.getElementById('changelog-modal').addEventListener('click', e => {
+  if (e.target === document.getElementById('changelog-modal')) closeChangelog();
 });
 </script>
 </body>
